@@ -27,6 +27,9 @@ def statement():
 
 
 def amount_for(a_performance, play):
+    """
+    a_performance - o prefixo 'a_' vem de array, pra mostrar a tipagem da variável
+    """
     result = 0
     if play['type'] == "tragedy":
         result = 40000

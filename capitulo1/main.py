@@ -26,16 +26,16 @@ def statement():
     return result
 
 
-def amount_for(perf, play):
+def amount_for(a_performance, play):
     result = 0
     if play['type'] == "tragedy":
         result = 40000
-        if perf['audience'] > 30:
-            result += 1000 * (perf['audience'] - 30)
+        if a_performance['audience'] > 30:
+            result += 1000 * (a_performance['audience'] - 30)
     elif play['type'] == "comedy":
         result = 30000
-        if perf['audience'] > 20:
-            result += 10000 + 500 * (perf['audience'] - 20)
+        if a_performance['audience'] > 20:
+            result += 10000 + 500 * (a_performance['audience'] - 20)
         result += 300 * perf['audience']
     else:
         raise Exception(f"unknown type: {play['type']}")

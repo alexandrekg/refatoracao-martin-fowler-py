@@ -6,10 +6,10 @@ def statement():
     total_amount = 0
     volume_credits = 0
     invoices = json.load(open('invoices.json'))[0]
-    plays = json.load(open('plays.json'))
+    
     result = f"Statement for {invoices['customer']} \n"
     for perf in invoices['performances']:
-        play = plays[perf['playID']]
+        play = play_for(perf)
         this_amount = amount_for(perf, play)
         # soma créditos por volume
         volume_credits += max(perf['audience'] - 30, 0)
@@ -26,6 +26,10 @@ def statement():
     return result
 
 
+def play_for(a_performance):
+    plays = json.load(open('plays.json'))
+    return plays[a_performance['playID']]
+
 def amount_for(a_performance, play):
     """
     a_performance - o prefixo 'a_' vem de array, pra mostrar a tipagem da variável
@@ -39,7 +43,7 @@ def amount_for(a_performance, play):
         result = 30000
         if a_performance['audience'] > 20:
             result += 10000 + 500 * (a_performance['audience'] - 20)
-        result += 300 * perf['audience']
+        result += 300 * a_performance['audience']
     else:
         raise Exception(f"unknown type: {play['type']}")
     

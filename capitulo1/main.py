@@ -9,7 +9,6 @@ def statement():
     
     result = f"Statement for {invoices['customer']} \n"
     for perf in invoices['performances']:
-        this_amount = amount_for(perf)
         # soma créditos por volume
         volume_credits += max(perf['audience'] - 30, 0)
 
@@ -18,8 +17,8 @@ def statement():
             volume_credits += math.floor(perf['audience'] / 5)
 
         # exibe a linha para esta requisição
-        result += f" {play_for(perf)['name']}: ${'{:,.2f}'.format(this_amount / 100)} ({perf['audience']} seats)\n"
-        total_amount += this_amount
+        result += f" {play_for(perf)['name']}: ${'{:,.2f}'.format(amount_for(perf) / 100)} ({perf['audience']} seats)\n"
+        total_amount +=  amount_for(perf)
     result += f"Amount owed is ${'{:,.2f}'.format(total_amount / 100)}\n"
     result += f"You earned {volume_credits} credits\n"
     return result

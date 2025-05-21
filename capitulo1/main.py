@@ -44,13 +44,13 @@ def amount_for(a_performance):
     return result
 
 
-def volume_credits_for(perf):
-    volume_credits = 0
-    volume_credits += max(perf['audience'] - 30, 0)
+def volume_credits_for(a_performance):
+    result = 0
+    result += max(a_performance['audience'] - 30, 0)
     # soma um crédito extra para cada dez espectadores de comédia
-    if play_for(perf)['type'] == "comedy":
-        volume_credits += math.floor(perf['audience'] / 5)
-    return volume_credits
+    if play_for(a_performance)['type'] == "comedy":
+        result += math.floor(a_performance['audience'] / 5)
+    return result
 
 
 print(statement())

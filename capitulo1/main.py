@@ -9,17 +9,16 @@ def statement():
     
     result = f"Statement for {invoices['customer']} \n"
     for perf in invoices['performances']:
-        play = play_for(perf)
-        this_amount = amount_for(perf, play)
+        this_amount = amount_for(perf, play_for(perf))
         # soma créditos por volume
         volume_credits += max(perf['audience'] - 30, 0)
 
         # soma um crédito extra para cada dez espectadores de comédia
-        if play['type'] == "comedy":
+        if play_for(perf)['type'] == "comedy":
             volume_credits += math.floor(perf['audience'] / 5)
 
         # exibe a linha para esta requisição
-        result += f" {play['name']}: ${'{:,.2f}'.format(this_amount / 100)} ({perf['audience']} seats)\n"
+        result += f" {play_for(perf)['name']}: ${'{:,.2f}'.format(this_amount / 100)} ({perf['audience']} seats)\n"
         total_amount += this_amount
     result += f"Amount owed is ${'{:,.2f}'.format(total_amount / 100)}\n"
     result += f"You earned {volume_credits} credits\n"

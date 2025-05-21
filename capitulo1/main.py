@@ -53,7 +53,7 @@ def volume_credits_for(a_performance):
     return result
 
 def format_number(a_number):
-    return f"$"'{:,.2f}'.format(a_number)
+    return f"$ "'{:,.2f}'.format(a_number)
 
 
 print(statement())

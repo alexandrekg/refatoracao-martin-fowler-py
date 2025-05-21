@@ -12,7 +12,7 @@ def statement():
         # soma créditos por volume
         volume_credits += volume_credits_for(perf)
         # exibe a linha para esta requisição
-        result += f" {play_for(perf)['name']}: {usd(amount_for(perf) / 100)} ({perf['audience']} seats)\n"
+        result += f" {play_for(perf)['name']}: {usd(amount_for(perf))} ({perf['audience']} seats)\n"
         total_amount += amount_for(perf)
     result += f"Amount owed is ${'{:,.2f}'.format(total_amount / 100)}\n"
     result += f"You earned {volume_credits} credits\n"
@@ -53,7 +53,7 @@ def volume_credits_for(a_performance):
     return result
 
 def usd(a_number):
-    return f"$ "'{:,.2f}'.format(a_number)
+    return f"$ "'{:,.2f}'.format(a_number / 100)
 
 
 print(statement())

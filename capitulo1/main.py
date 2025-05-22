@@ -2,20 +2,17 @@ import json
 import math
 
 
+invoices = json.load(open('invoices.json'))[0]
+
+
 def statement():
     total_amount = 0
-    volume_credits = 0
-    invoices = json.load(open('invoices.json'))[0]
-
     result = f"Statement for {invoices['customer']} \n"
     for perf in invoices['performances']:
-        # soma créditos por volume
-        volume_credits += volume_credits_for(perf)
-        # exibe a linha para esta requisição
         result += f" {play_for(perf)['name']}: {usd(amount_for(perf))} ({perf['audience']} seats)\n"
         total_amount += amount_for(perf)
     result += f"Amount owed is ${'{:,.2f}'.format(total_amount / 100)}\n"
-    result += f"You earned {volume_credits} credits\n"
+    result += f"You earned {total_volume_credits()} credits\n"
     return result
 
 
@@ -54,6 +51,13 @@ def volume_credits_for(a_performance):
 
 def usd(a_number):
     return f"$ "'{:,.2f}'.format(a_number / 100)
+
+def total_volume_credits():
+    volume_credits = 0
+    for perf in invoices['performances']:
+        # soma créditos por volume
+        volume_credits += volume_credits_for(perf)
+    return volume_credits
 
 
 print(statement())

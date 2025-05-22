@@ -6,12 +6,11 @@ invoices = json.load(open('invoices.json'))[0]
 
 
 def statement():
-    total_amount = 0
     result = f"Statement for {invoices['customer']} \n"
     for perf in invoices['performances']:
         result += f" {play_for(perf)['name']}: {usd(amount_for(perf))} ({perf['audience']} seats)\n"
-        total_amount += amount_for(perf)
-    result += f"Amount owed is ${'{:,.2f}'.format(total_amount / 100)}\n"
+
+    result += f"Amount owed is {usd(total_amount())}\n"
     result += f"You earned {total_volume_credits()} credits\n"
     return result
 
@@ -57,6 +56,12 @@ def total_volume_credits():
     for perf in invoices['performances']:
         # soma créditos por volume
         result += volume_credits_for(perf)
+    return result
+
+def total_amount():
+    result = 0
+    for perf in invoices['performances']:
+        result += amount_for(perf)
     return result
 
 

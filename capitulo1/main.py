@@ -53,11 +53,11 @@ def usd(a_number):
     return f"$ "'{:,.2f}'.format(a_number / 100)
 
 def total_volume_credits():
-    volume_credits = 0
+    result = 0
     for perf in invoices['performances']:
         # soma créditos por volume
-        volume_credits += volume_credits_for(perf)
-    return volume_credits
+        result += volume_credits_for(perf)
+    return result
 
 
 print(statement())

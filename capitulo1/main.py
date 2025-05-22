@@ -6,6 +6,9 @@ invoices = json.load(open('invoices.json'))[0]
 
 
 def statement():
+    return render_plain_text()
+
+def render_plain_text():
     result = f"Statement for {invoices['customer']} \n"
     for perf in invoices['performances']:
         result += f" {play_for(perf)['name']}: {usd(amount_for(perf))} ({perf['audience']} seats)\n"

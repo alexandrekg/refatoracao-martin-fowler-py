@@ -28,10 +28,7 @@ def total_amount(statement_data):
 
 
 def total_volume_credits(statement_data):
-    result = 0
-    for perf in statement_data['performances']:
-        result += perf['volume_credits']
-    return result
+    return reduce(lambda volume_credits, new_vol_credits: volume_credits + new_vol_credits['volume_credits'], statement_data['performances'], 0)
 
 
 def usd(a_number):

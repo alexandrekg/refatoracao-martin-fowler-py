@@ -2,17 +2,18 @@ import json
 import math
 
 
-invoices = json.load(open('invoices.json'))[0]
 
 
-def statement():
+
+def statement(invoices, plays):
     statement_data = {}
     statement_data['customer'] = invoices['customer']
+    statement_data['performances'] = [enrich_performance(perf) for perf in invoices['performances']]
     return render_plain_text(statement_data)
 
 def render_plain_text(statement_data):
     result = f"Statement for {statement_data['customer']} \n"
-    for perf in invoices['performances']:
+    for perf in statement_data['performances']:
         result += f" {play_for(perf)['name']}: {usd(amount_for(perf))} ({perf['audience']} seats)\n"
 
     result += f"Amount owed is {usd(total_amount())}\n"
@@ -48,7 +49,6 @@ def volume_credits_for(a_performance):
 
 
 def play_for(a_performance):
-    plays = json.load(open('plays.json'))
     return plays[a_performance['playID']]
 
 
@@ -71,5 +71,11 @@ def amount_for(a_performance):
 
     return result
 
+def enrich_performance(a_performance):
+    result = a_performance.copy()
+    return result
 
-print(statement())
+
+plays = json.load(open('plays.json'))
+invoices = json.load(open('invoices.json'))[0]
+print(statement(invoices, plays))

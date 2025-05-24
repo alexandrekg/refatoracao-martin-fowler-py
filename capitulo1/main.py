@@ -1,6 +1,6 @@
 import json
 import math
-
+from functools import reduce
 
 
 
@@ -24,10 +24,7 @@ def render_plain_text(statement_data):
 
 
 def total_amount(statement_data):
-    result = 0
-    for perf in statement_data['performances']:
-        result += perf['amount']
-    return result
+    return reduce(lambda current_amount, new_amount: current_amount + new_amount['amount'], statement_data['performances'], 0)
 
 
 def total_volume_credits(statement_data):

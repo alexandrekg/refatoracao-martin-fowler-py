@@ -9,6 +9,8 @@ def statement(invoices):
     statement_data = {}
     statement_data['customer'] = invoices['customer']
     statement_data['performances'] = [enrich_performance(perf) for perf in invoices['performances']]
+    statement_data['total_amount'] = total_amount(statement_data)
+    statement_data['total_volume_credits'] = total_volume_credits(statement_data)
     return render_plain_text(statement_data)
 
 def render_plain_text(statement_data):
@@ -16,8 +18,8 @@ def render_plain_text(statement_data):
     for perf in statement_data['performances']:
         result += f" {perf['play']['name']}: {usd(perf['amount'])} ({perf['audience']} seats)\n"
 
-    result += f"Amount owed is {usd(total_amount(statement_data))}\n"
-    result += f"You earned {total_volume_credits(statement_data)} credits\n"
+    result += f"Amount owed is {usd(statement_data['total_amount'])}\n"
+    result += f"You earned {statement_data['total_volume_credits']} credits\n"
     return result
 
 

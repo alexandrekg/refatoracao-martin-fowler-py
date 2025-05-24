@@ -31,7 +31,7 @@ def total_amount(statement_data):
 def total_volume_credits(statement_data):
     result = 0
     for perf in statement_data['performances']:
-        result += volume_credits_for(perf)
+        result += perf['volume_credits']
     return result
 
 
@@ -75,6 +75,7 @@ def enrich_performance(a_performance):
     result = a_performance.copy()
     result['play'] = play_for(a_performance)
     result['amount'] = amount_for(result)
+    result['volume_credits'] = volume_credits_for(result)
     return result
 
 

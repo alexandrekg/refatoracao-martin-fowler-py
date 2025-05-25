@@ -5,6 +5,12 @@ from functools import reduce
 plays = json.load(open('plays.json'))
 
 
+class PerformanceCalculator:
+    def __init__(self, a_performance, a_play):
+        self.performance = a_performance
+        self.play = a_play
+        
+
 def create_statement_data(invoice):
     statement_data = {}
     statement_data['customer'] = invoice['customer']
@@ -17,8 +23,9 @@ def create_statement_data(invoice):
 
 
 def enrich_performance(a_performance):
+    calculator = PerformanceCalculator(a_performance, play_for(a_performance))
     result = a_performance.copy()
-    result['play'] = play_for(a_performance)
+    result['play'] = calculator.play
     result['amount'] = amount_for(result)
     result['volume_credits'] = volume_credits_for(result)
     return result

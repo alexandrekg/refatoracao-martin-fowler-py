@@ -5,8 +5,8 @@ from create_statement_data import create_statement_data
 invoices = json.load(open('invoices.json'))[0]
 
 
-def statement(invoices):
-    return render_plain_text(create_statement_data(invoices))
+def statement(param_invoices):
+    return render_plain_text(create_statement_data(param_invoices))
 
 def render_plain_text(statement_data):
     result = f"Statement for {statement_data['customer']} \n"

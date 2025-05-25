@@ -10,7 +10,6 @@ class PerformanceCalculator:
         self.performance = a_performance
         self.play = a_play
 
-
     def amount(self):
         """
         a_performance - o prefixo 'a_' vem de array, pra mostrar a tipagem da variável
@@ -26,8 +25,17 @@ class PerformanceCalculator:
                 result += 10000 + 500 * (self.performance['audience'] - 20)
             result += 300 * self.performance['audience']
         else:
-            raise Exception(f"unknown type: {self.performance['play']['type']}")
+            raise Exception(
+                f"unknown type: {self.performance['play']['type']}")
 
+        return result
+
+    def volume_credits(self):
+        result = 0
+        result += max(self.performance['audience'] - 30, 0)
+        # soma um crédito extra para cada dez espectadores de comédia
+        if self.performance['play']['type'] == "comedy":
+            result += math.floor(self.performance['audience'] / 5)
         return result
 
 
@@ -46,8 +54,8 @@ def enrich_performance(a_performance):
     calculator = PerformanceCalculator(a_performance, play_for(a_performance))
     result = a_performance.copy()
     result['play'] = calculator.play
-    result['amount'] = amount_for(result)
-    result['volume_credits'] = volume_credits_for(result)
+    result['amount'] = calculator.amount()
+    result['volume_credits'] = calculator.volume_credits()
     return result
 
 
@@ -56,23 +64,7 @@ def play_for(a_performance):
 
 
 def amount_for(a_performance):
-    """
-    a_performance - o prefixo 'a_' vem de array, pra mostrar a tipagem da variável
-    """
-    result = 0
-    if a_performance['play']['type'] == "tragedy":
-        result = 40000
-        if a_performance['audience'] > 30:
-            result += 1000 * (a_performance['audience'] - 30)
-    elif a_performance['play']['type'] == "comedy":
-        result = 30000
-        if a_performance['audience'] > 20:
-            result += 10000 + 500 * (a_performance['audience'] - 20)
-        result += 300 * a_performance['audience']
-    else:
-        raise Exception(f"unknown type: {a_performance['play']['type']}")
-
-    return result
+    return PerformanceCalculator(a_performance, play_for(a_performance)).amount()
 
 
 def volume_credits_for(a_performance):

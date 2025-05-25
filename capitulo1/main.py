@@ -6,12 +6,7 @@ from functools import reduce
 
 
 def statement(invoices):
-    statement_data = {}
-    statement_data['customer'] = invoices['customer']
-    statement_data['performances'] = [enrich_performance(perf) for perf in invoices['performances']]
-    statement_data['total_amount'] = total_amount(statement_data)
-    statement_data['total_volume_credits'] = total_volume_credits(statement_data)
-    return render_plain_text(statement_data)
+    return render_plain_text(create_statement_data(invoices))
 
 def render_plain_text(statement_data):
     result = f"Statement for {statement_data['customer']} \n"
@@ -21,6 +16,14 @@ def render_plain_text(statement_data):
     result += f"Amount owed is {usd(statement_data['total_amount'])}\n"
     result += f"You earned {statement_data['total_volume_credits']} credits\n"
     return result
+
+def create_statement_data(invoice):
+    statement_data = {}
+    statement_data['customer'] = invoice['customer']
+    statement_data['performances'] = list(map(enrich_performance, invoice['performances']))
+    statement_data['total_amount'] = total_amount(statement_data)
+    statement_data['total_volume_credits'] = total_volume_credits(statement_data)
+    return statement_data
 
 
 def total_amount(statement_data):
